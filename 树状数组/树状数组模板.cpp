@@ -4,7 +4,9 @@
 #include<algorithm>
 #include<cmath> 
 /*
-树状数组里前缀和是从1开始算的 
+树状数组里前缀和是从1开始算的
+x[i]本身没什么意义
+要求原数组值使用sum(i)-sum(i-1) 
 */
 using namespace std;
 
