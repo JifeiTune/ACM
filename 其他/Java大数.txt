@@ -1,0 +1,26 @@
+package acm;
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Test 
+{
+	public static void main(String[] args)
+    {
+		Scanner input=new Scanner(System.in);
+		//构造
+		BigInteger x=BigInteger.valueOf(1000000000L);//由long型转换而来
+		x=new BigInteger("10000000",10);//由字符串转换而来，后一个参数为进制，省略默认为10
+		x=input.nextBigInteger(10);//直接读入，参数为进制，可省略
+		//运算等
+		x=x.add(x);
+		x=x.divide(x);
+		x=x.mod(x);//取余
+		x=x.gcd(x);//求gcd
+		x=x.negate();//取相反数
+		x.compareTo(x);//比较大小
+		x.isProbablePrime(100);//判断是否是质数，正确率为1-0.5^参数
+		System.out.println(x);
+		
+		input.close();
+    }
+}
