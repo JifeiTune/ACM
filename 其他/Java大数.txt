@@ -19,6 +19,7 @@ public class Test
 		x=x.negate();//取相反数
 		x.compareTo(x);//比较大小
 		x.isProbablePrime(100);//判断是否是质数，正确率为1-0.5^参数
+		x.toString(进制);//转换成任意进制表示的字符串
 		System.out.println(x);
 		
 		input.close();

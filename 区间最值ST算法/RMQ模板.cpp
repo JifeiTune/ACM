@@ -6,20 +6,21 @@
 
 using namespace std;
 
-#define num 100000//Êı×é×î´ó³¤¶È
-#define LOG ((int)log2(num))//Êı×é³¤¶ÈÒÔ2Îªµ×µÄ¶ÔÊı
+#define num 100001//Êı×é×î´ó³¤¶È
+const int LOG=((int)log2(num))+1;//Êı×é³¤¶ÈÒÔ2Îªµ×µÄ¶ÔÊı
  
-/*¼ÙÉèÊı×éÏÂ±ê´Ó1¿ªÊ¼
+/*
+Êı×éÏÂ±ê´Ó1¿ªÊ¼
 ×¢ÒâÀÏµÄ±àÒëÆ÷²»Ö§³Ölog2£¬Í¨¹ıÀàËÆ(1<<(j++))<=numÀ´È·¶¨ÏÂ±ê¼´¿É 
 */
-int x[num+1]; 
-int MAX[num+1][LOG+1];//×¢ÒâÀÏµÄ±àÒëÆ÷¿ÉÄÜ²»Ö§³ÖÊı×é³¤¶ÈÕâÑùÈ·¶¨£¬±£ÏÕÆğ¼û¿ÉÒÔÏÈËã³öLOGµÄ³£Á¿³¤¶È 
-int MIN[num+1][LOG+1];
+int x[num]; 
+int MAX[num][LOG];//×¢ÒâÀÏµÄ±àÒëÆ÷¿ÉÄÜ²»Ö§³ÖÊı×é³¤¶ÈÕâÑùÈ·¶¨£¬±£ÏÕÆğ¼û¿ÉÒÔÏÈËã³öLOGµÄ³£Á¿³¤¶È 
+int MIN[num][LOG];
 int len;//Êı×éÊµ¼ÊÊ¹ÓÃ³¤¶È 
 
 void init()//³õÊ¼»¯Êı×éºó±ğÍüÁËinit£¡ 
 {
-	int f=(int)log2(len),i,j;
+	int f=(int)log2(len)+1,i,j;
 	for(i=1;i<=len;i++)
 	{
 		MAX[i][0]=x[i];
@@ -50,7 +51,7 @@ int answer(int i,int j,bool what)//Çóiµ½j×îÖµ£¬whatÎª1±íÊ¾Çó×î´óÖµ£¬Îª0±íÊ¾Çó×îĞ
 
 int main()
 {
-	
+	len=10000;
 	return 0; 
 }
 

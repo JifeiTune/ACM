@@ -39,7 +39,6 @@ void bfs()
 				if(dp.find(newS)==dp.end())//ªπŒ¥≤Â»Îmap 
 				{
 					dp[newS]=dp[oldS]+1;
-					//cout<<newS<<' '<<dp[newS]<<' '<<newP<<endl;
 					q.push(make_pair(newS,newP)); 
 				} 
 			}
@@ -48,8 +47,7 @@ void bfs()
 } 
 
 int main()
-{
-	//freopen("out.txt","w",stdout); 
+{ 
 	bfs();
 	string s="01234567";
 	int i;
