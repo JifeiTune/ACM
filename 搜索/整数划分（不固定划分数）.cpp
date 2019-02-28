@@ -13,23 +13,23 @@
 
 using namespace std;
 /*
-å°†nåˆ’åˆ†ä¸ºå¤šä¸ªæ•°çš„å’Œçš„å½¢å¼ï¼Œè¾“å‡ºæ‰€æœ‰
-å’Œè®¡æ•°é—®é¢˜ä¸€æ ·ï¼Œè§„å®šå¥½åˆ’åˆ†æ—¶çš„å‡é™é¡ºåºï¼Œå°±ä¸ä¼šé‡å¤
-dfsé€’å½’æ±‚è§£
+½«n»®·ÖÎª¶à¸öÊýµÄºÍµÄÐÎÊ½£¬Êä³öËùÓÐ
+ºÍ¼ÆÊýÎÊÌâÒ»Ñù£¬¹æ¶¨ºÃ»®·ÖÊ±µÄÉý½µË³Ðò£¬¾Í²»»áÖØ¸´
+dfsµÝ¹éÇó½â
 */
 int all;
 vector<int> ans;
 
-void dfs(int n,int MIN)//å°†næŒ‰ä¸å°äºŽMINåˆ’åˆ†
+void dfs(int n,int MIN)//½«n°´²»Ð¡ÓÚMIN»®·Ö
 {
     int i;
     for(i=MIN;i<=n-i;i++)
     {
         ans.push_back(i);
         dfs(n-i,i);
-        ans.pop_back();//æ¢å¤
+        ans.pop_back();//»Ö¸´
     }
-    //ä¸åˆ’åˆ†
+    //²»»®·Ö
     ans.push_back(n);
     printf("%d=%d",all,ans[0]);
     for(i=1;i<ans.size();i++)
