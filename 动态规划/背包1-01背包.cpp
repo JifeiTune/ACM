@@ -28,7 +28,7 @@ dp[i][j]为考虑到前i个物品，背包容量为j时的最大价值
 则求解过程中只要有可达状态，max中必然忽略极小值
 */
 
-int dp[31][201];
+int dp[201];//考虑到当前物品时，容量为i时的最大价值 
 int val[31];//价值
 int wei[31];//重量
 
@@ -43,20 +43,17 @@ int main()
     }
     for(j=0;j<=all;j++)
     {
-        dp[0][j]=0;//根据递推表达式初始化边界
+        dp[j]=0;//根据递推表达式初始化边界
     }
     for(i=1;i<=n;i++)
     {
-        for(j=0;j<wei[i];j++)//此时只能不放
+    	//注意下面应该逆序 
+        for(j=all;j>=wei[i];j--)//容量不足时就等于i-1时的相应的值，所以可以省略
         {
-            dp[i][j]=dp[i-1][j];
-        }
-        for(j=wei[i];j<=all;j++)//此时可放可不放
-        {
-            dp[i][j]=max(dp[i-1][j],dp[i-1][j-wei[i]]+val[i]);
+            dp[j]=max(dp[j],dp[j-wei[i]]+val[i]);//放或不放
         }
     }
-    cout<<dp[n][all];
+    cout<<dp[all];
     return 0;
 }
 

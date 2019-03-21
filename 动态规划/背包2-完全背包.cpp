@@ -26,7 +26,7 @@ using namespace std;
 同理dp数组也可降为1维，此时j应该从小到大循环
 */
 
-int dp[31][201];
+int dp[201];
 int val[31];//价值
 int wei[31];//重量
 
@@ -41,22 +41,17 @@ int main()
     }
     for(j=0;j<=all;j++)
     {
-        dp[0][j]=0;//根据递推表达式初始化边界
+        dp[j]=0;//根据递推表达式初始化边界
     }
     for(i=1;i<=n;i++)
     {
-        for(j=0;j<wei[i];j++)//此时只能不放
+        //注意下面应该正序，因为物品无限的，在i状态可重复考虑
+        for(j=wei[i];j<=all;j++)//省略了容量不足的情况，因为就等于i-1时对应的值
         {
-            dp[i][j]=dp[i-1][j];
-        }
-        for(j=wei[i];j<=all;j++)//此时可放可不放
-        {
-            t1=dp[i][j-wei[i]]+val[i];//放
-            t2=dp[i-1][j];//不放
-            dp[i][j]=max(t1,t2);
+            dp[j]=max(dp[j],dp[j-wei[i]]+val[i]);//放或不放
         }
     }
-    cout<<"max="<<dp[n][all];
+    cout<<"max="<<dp[all];
     return 0;
 }
 
