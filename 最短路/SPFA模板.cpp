@@ -28,7 +28,7 @@ struct Edge
 int Enum;//边的数目
 int Pnum;//点的数目
 Edge G[MAXM+1];//按边数开
-int head[MAXM+1];
+int head[MAXN+1];
 int dis[MAXN+1];
 int InNum[MAXN+1];//入队次数
 bool InQ[MAXN+1];

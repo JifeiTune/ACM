@@ -37,10 +37,11 @@ struct Edge
     int next;
 };
 
+#define MAXN 10000//最多点数 
 #define MAXM 100000//最多边数
 int Enum;//边的数目
 Edge G[MAXM+1];//按边数开
-int head[MAXM+1];
+int head[MAXN+1];//按点数开 
 
 inline void addE(int from,int to,int dis)
 {
