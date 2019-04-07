@@ -7,26 +7,24 @@
 using namespace std;
 
 #define num 100001//Êı×é×î´ó³¤¶È
-const int LOG=((int)log2(num))+1;//Êı×é³¤¶ÈÒÔ2Îªµ×µÄ¶ÔÊı
  
 /*
 Êı×éÏÂ±ê´Ó1¿ªÊ¼
-×¢ÒâÀÏµÄ±àÒëÆ÷²»Ö§³Ölog2£¬Í¨¹ıÀàËÆ(1<<(j++))<=numÀ´È·¶¨ÏÂ±ê¼´¿É 
 */
 int x[num]; 
-int MAX[num][LOG];//×¢ÒâÀÏµÄ±àÒëÆ÷¿ÉÄÜ²»Ö§³ÖÊı×é³¤¶ÈÕâÑùÈ·¶¨£¬±£ÏÕÆğ¼û¿ÉÒÔÏÈËã³öLOGµÄ³£Á¿³¤¶È 
-int MIN[num][LOG];
+int MAX[num][20];
+int MIN[num][20];
 int len;//Êı×éÊµ¼ÊÊ¹ÓÃ³¤¶È 
 
 void init()//³õÊ¼»¯Êı×éºó±ğÍüÁËinit£¡ 
 {
-	int f=(int)log2(len)+1,i,j;
+	int i,j;
 	for(i=1;i<=len;i++)
 	{
 		MAX[i][0]=x[i];
 		MIN[i][0]=x[i];//ÒÔi¿ªÍ·³¤¶ÈÎª2^0µÄ×îÖµµ±È»ÊÇ×Ô¼º 
 	}
-	for(j=1;j<=f;j++)
+	for(j=1;(1<<j)<=len;j++)
 	{
 		for(i=1;i+(1<<j)-1<=len;i++)//×¢Òâ·¶Î§£¬ÓÒ×ø±êÎ´³¬³öÊı×éÏÂ±ê²ÅÓĞ¼ÆËãµÄÒâÒå 
 		{
@@ -38,7 +36,9 @@ void init()//³õÊ¼»¯Êı×éºó±ğÍüÁËinit£¡
 
 int answer(int i,int j,bool what)//Çóiµ½j×îÖµ£¬whatÎª1±íÊ¾Çó×î´óÖµ£¬Îª0±íÊ¾Çó×îĞ¡Öµ 
 {
-	int k=(int)log2(j-i+1);
+	int dis=j-i+1,k=0;
+	while((1<<(++k))<=dis);
+    --k;
 	if(what)
 	{
 		return max(MAX[i][k],MAX[j-(1<<k)+1][k]);
@@ -52,6 +52,7 @@ int answer(int i,int j,bool what)//Çóiµ½j×îÖµ£¬whatÎª1±íÊ¾Çó×î´óÖµ£¬Îª0±íÊ¾Çó×îĞ
 int main()
 {
 	len=10000;
+	
 	return 0; 
 }
 
