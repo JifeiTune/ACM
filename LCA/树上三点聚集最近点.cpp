@@ -3,32 +3,30 @@
 #include<algorithm>
 #include<vector>
 #include<queue>
+#include<cmath>
 
 using namespace std;
 
 /*
-求树上任意两点距离 
-*/ 
+在树上给出3点
+需找出1点，使得3点到该点距离之和最小
+输出该点和距离和
 
-#define MAXN 100001
-#define EXP 20//不小于log2(MAXN)
+手玩样例发现，所要找的点是，两两求LCA，深度最大的那个LCA……
+啊，好卡时间，最后加了输入输出挂才过……
+*/
 
-struct Edge
-{
-    int to,dis;
-    Edge(){}
-    Edge(int _to,int _dis):to(_to),dis(_dis){}
-};
+#define MAXN 500001
+#define EXP 21//不小于log2(MAXN)
 
-vector<Edge> Tree[MAXN];
+vector<int> Tree[MAXN];
 int dep[MAXN];//点的深度
-int dis[MAXN];//点到根的距离
 int up[MAXN][EXP];//up[i][j]表示i点出发，向上跳2^j所到的点，0就表示没有
+int D=0;
 
 void dfs(int n,int fa)//当前节点，当前节点父节点
 {
-    int len=Tree[n].size(),i,j;
-    Edge to;
+    int len=Tree[n].size(),i,j,to;
     //遍历到了当前节点，就表示已经遍历完了根到该点路径上的点，所以可以直接更新当前点的up
     for(j=1;(1<<j)<=dep[n];j++)//能跳多少取决于其深度
     {
@@ -39,12 +37,12 @@ void dfs(int n,int fa)//当前节点，当前节点父节点
     for(i=0;i<len;i++)
     {
         to=Tree[n][i];
-        if(to.to!=fa)//别搜回去了
+        if(to!=fa)//别搜回去了
         {
-            dep[to.to]=dep[n]+1;
-            dis[to.to]=dis[n]+to.dis;
-			up[to.to][0]=n;//先更新深度和距离，以及up边界
-            dfs(to.to,n);
+            dep[to]=dep[n]+1;
+            D=D>dep[to]?D:dep[to];
+			up[to][0]=n;//先更新深度和距离，以及up边界
+            dfs(to,n);
         }
     }
 }
@@ -77,7 +75,7 @@ int LCA(int a,int b)//求a与b的最近公共祖先
     我们不知道还要向上跳多少，所以只能贪心地构造所跳步数的二进制数
     从高位开始尝试，如果跳该位权正好不会调至相同，就跳
     */
-    for(j=EXP-1;j>=0;j--)
+    for(j=D;j>=0;j--)
     {
         if(up[a][j]!=up[b][j])//不等就跳
         {
@@ -88,26 +86,57 @@ int LCA(int a,int b)//求a与b的最近公共祖先
     return up[a][0];//还差一步
 }
 
+inline void in(int &ret)
+{
+	char c;
+	int sgn;
+	c=getchar();
+	while((c<'0'||c>'9')) c=getchar();
+	ret=c-'0';
+	while(c=getchar(),c>='0'&&c<='9') ret=ret*10+(c-'0');
+}
+
+inline void out(int x)
+{
+	if(x>9) out(x/10);
+	putchar(x%10+'0');
+}
+
 int main()
 {
-    memset(up,0,sizeof(up));
-    int n,q,a,b,c,i,j;
+
+    int n,q,a,b,c,i,j,temp,ans,MAX=0,ab,ac,bc;
     scanf("%d%d",&n,&q);
     for(i=1;i<n;i++)
     {
-        scanf("%d%d%d",&a,&b,&c);
-        Tree[a].push_back(Edge(b,c));
-        Tree[b].push_back(Edge(a,c));
+        in(a),in(b);
+        Tree[a].push_back(b);
+        Tree[b].push_back(a);
     }
-    dep[1]=0;
-    dis[1]=0;
-    dfs(1,-1);//假设以1为根
 
+    dep[1]=0;
+    dfs(1,-1);//假设以1为根
+    D=log2(D)+1;
     while(q--)
     {
-        scanf("%d%d",&a,&b);
-        c=LCA(a,b);
-        printf("%d\n",dis[a]+dis[b]-2*dis[c]);
+        in(a),in(b),in(c);
+        ab=LCA(a,b);
+        ac=LCA(a,c);
+        bc=LCA(b,c);
+        temp=ab;
+        MAX=dep[ab];
+        if(dep[ab]<dep[ac])
+        {
+            temp=ac;
+            MAX=dep[ac];
+        }
+        if(dep[bc]>MAX)
+        {
+            temp=bc;
+        }
+        out(temp),putchar(' ');
+        out(dep[a]+dep[b]+dep[c]-dep[ab]-dep[ac]-dep[bc]);
+        putchar('\n');
     }
     return 0;
 }

@@ -45,7 +45,7 @@ int main()
         printf("%d\n",lenx%(lenx-Next[lenx])==0?lenx/(lenx-Next[lenx]):1);
 	}
 	return 0;
-}
+} 
 
 
 
