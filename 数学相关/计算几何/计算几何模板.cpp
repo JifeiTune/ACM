@@ -102,7 +102,7 @@ struct Point{
   } 
   //化为长度为 r 的向量 
   Point trunc(double r){ 
-      double l = len(); 
+      double l = len();  
       if(!sgn(l))return *this; 
        r /= l; 
        return Point(x*r,y*r); 
