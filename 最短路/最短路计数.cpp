@@ -12,8 +12,12 @@
 using namespace std;
 
 /*
-这次用前向星建的图 
-*/ 
+给定一个无向图，求1到所有点的最短路径数个数（需要取余）
+用num记录一下每个点，当前到源点的最短路径个数
+松弛操作时，松弛from到to边，若能松弛（即小于），则num[to]=num[from]
+也就是说以源点到to的路径都先倒from，再从from到to
+若松弛时出现等于，则num[to]+=num[from]，其实就是乘法原理 
+*/
 
 struct Edge
 {
@@ -22,17 +26,18 @@ struct Edge
     int next;
 };
 
-#define MAXM 1000010//最多边数
+#define MAXM 400010//最多边数
 #define MAXN 100010//最多点数
 
 int Enum;//边的数目
 int Pnum;//点的数目
 Edge G[MAXM+1];//按边数开
 int head[MAXN+1];
-long long dis[MAXN+1];
+int dis[MAXN+1];
 int InNum[MAXN+1];//入队次数
 bool InQ[MAXN+1];
 queue<int> q;
+int num[MAXN+1];
 
 inline void addE(int from,int to,int dis)
 {
@@ -61,6 +66,7 @@ bool SPFA(int beg)
             to=G[i].to;
             if(dis[from]+G[i].dis<dis[to])//可成功松弛
             {
+                num[to]=num[from];
                 dis[to]=dis[from]+G[i].dis;
                 if(!InQ[to])
                 {
@@ -73,6 +79,10 @@ bool SPFA(int beg)
                     return 0;
                 }
             }
+            else if(dis[from]+G[i].dis==dis[to])
+            {
+                num[to]=(num[from]+num[to])%100003;
+            }
         }
     }
     return 1;
@@ -84,20 +94,22 @@ int main()
     Enum=0;
     int i,j,a,b,c,m;
     scanf("%d%d",&Pnum,&m);
+    memset(num,0,sizeof(num));
+    num[1]=1;
     memset(head,-1,sizeof(int)*(Pnum+1));
     memset(InNum,0,sizeof(int)*(Pnum+1));
     memset(dis,0x3f,sizeof(int)*(Pnum+1));
     memset(InQ,0,sizeof(bool)*(Pnum+1));
     for(i=1;i<=m;i++)
     {
-        scanf("%d%d%d",&a,&b,&c);
-        if(a!=b)
-        {
-            addE(a,b,c);
-            addE(b,a,c);
-        }
+        scanf("%d%d",&a,&b);
+        addE(a,b,1);
+        addE(b,a,1);
     }
     SPFA(1);
-    cout<<dis[Pnum];
+    for(i=1;i<=Pnum;i++)
+    {
+        printf("%d\n",num[i]);
+    }
     return 0;
 }
